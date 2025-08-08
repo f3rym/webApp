@@ -1,23 +1,317 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon WebApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        #response { margin-top: 20px; color: green; }
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark: #292F36;
+            --light: #F7FFF7;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 230, 109, 0.2) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(78, 205, 196, 0.2) 0%, transparent 20%);
+            min-height: 100vh;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { background-position: 10% 20%, 90% 80%; }
+            50% { background-position: 15% 25%, 85% 75%; }
+        }
+
+        #app {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: var(--primary);
+            text-shadow: 3px 3px 0 var(--accent);
+            margin-bottom: 1rem;
+            transform: rotate(-5deg);
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(-5deg); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 10px 20px rgba(0,0,0,0.1),
+                0 6px 6px rgba(0,0,0,0.05);
+            border: 4px solid var(--dark);
+            margin-bottom: 2rem;
+            transform-style: preserve-3d;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 
+                0 15px 30px rgba(0,0,0,0.15),
+                0 10px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--dark);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 3px solid var(--dark);
+            border-radius: 10px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 0 var(--dark);
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--dark);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .error {
+            color: #FF3333;
+            margin-top: 1rem;
+            font-weight: bold;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .character {
+            width: 120px;
+            height: 120px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            position: relative;
+            border: 4px solid var(--dark);
+        }
+
+        .character:before, .character:after {
+            content: "";
+            position: absolute;
+            background-color: var(--dark);
+        }
+
+        .character:before {
+            width: 40px;
+            height: 20px;
+            border-radius: 50%;
+            top: 40px;
+            left: 30px;
+            box-shadow: 
+                30px 0 0 var(--dark),
+                15px 30px 0 -5px var(--dark),
+                45px 30px 0 -5px var(--dark);
+        }
+
+        .character:after {
+            width: 30px;
+            height: 10px;
+            border-radius: 50%;
+            top: 75px;
+            left: 45px;
+        }
+
+        .switch-form {
+            margin-top: 1.5rem;
+            color: var(--dark);
+        }
+
+        .switch-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to My App</h1>
-    <button onclick="fetchData()">Call Python API</button>
-    <div id="response"></div>
+    <div id="app">
+        <div class="logo">🐱 WebApp</div>
+        
+        <div v-if="!token">
+            <div class="character"></div>
+            
+            <div class="card" v-if="showRegister">
+                <h1>Create Account</h1>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input v-model="register.username" placeholder="SuperHero123">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input v-model="register.email" placeholder="hello@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input v-model="register.password" type="password" placeholder="••••••••">
+                </div>
+                <button class="btn" @click="handleRegister">Sign Up</button>
+                <p class="error">{{ registerError }}</p>
+                <div class="switch-form">
+                    Already have an account? <a @click="showRegister = false">Login</a>
+                </div>
+            </div>
+            
+            <div class="card" v-else>
+                <h1>Welcome Back!</h1>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input v-model="login.email" placeholder="hello@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input v-model="login.password" type="password" placeholder="••••••••">
+                </div>
+                <button class="btn" @click="handleLogin">Login</button>
+                <p class="error">{{ loginError }}</p>
+                <div class="switch-form">
+                    New here? <a @click="showRegister = true">Create Account</a>
+                </div>
+            </div>
+        </div>
+        
+        <div v-else>
+            <div class="card">
+                <h1>🎉 Welcome! 🎉</h1>
+                <p>You're successfully logged in!</p>
+                <button class="btn btn-secondary" @click="logout">Logout</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        async function fetchData() {
-            const response = await fetch('/api/hello');
-            const data = await response.json();
-            document.getElementById('response').innerText = data.message;
-        }
+        const app = new Vue({
+            el: '#app',
+            data: {
+                token: localStorage.getItem('token') || null,
+                showRegister: false,
+                register: { username: '', email: '', password: '' },
+                login: { email: '', password: '' },
+                registerError: '',
+                loginError: ''
+            },
+            methods: {
+                async handleRegister() {
+                    this.registerError = '';
+                    try {
+                        const res = await axios.post('/api/register', this.register);
+                        this.token = res.data.token;
+                        localStorage.setItem('token', this.token);
+                    } catch (err) {
+                        this.registerError = err.response?.data?.error || 'Oops! Something went wrong!';
+                    }
+                },
+                async handleLogin() {
+                    this.loginError = '';
+                    try {
+                        const res = await axios.post('/api/login', this.login);
+                        this.token = res.data.token;
+                        localStorage.setItem('token', this.token);
+                    } catch (err) {
+                        this.loginError = err.response?.data?.error || 'Invalid email or password!';
+                    }
+                },
+                logout() {
+                    this.token = null;
+                    localStorage.removeItem('token');
+                    this.showRegister = false;
+                }
+            }
+        });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </body>
 </html>
