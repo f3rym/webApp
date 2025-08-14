@@ -5,6 +5,9 @@ import jwt
 import datetime
 from flask_cors import CORS
 
+# Добавляем ngrok
+from pyngrok import ngrok
+
 app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'your-secret-key'
@@ -21,7 +24,6 @@ def get_db():
     return psycopg2.connect(**DB_CONFIG)
 
 def init_db():
-    """Создаёт таблицу users, если её нет"""
     conn = None
     try:
         conn = get_db()
@@ -95,6 +97,11 @@ def login():
             conn.close()
 
 if __name__ == '__main__':
-    init_db()  # создаём таблицу при старте
-    app.run(host='0.0.0.0', port=5000, ssl_context=('cert.pem', 'key.pem'))
+    init_db()
 
+    # Запускаем Flask
+    port = 5000
+    public_url = ngrok.connect(port, proto="http")  # ngrok создаёт публичный HTTP URL
+    print(f"🚀 ngrok URL: {public_url}")
+
+    app.run(port=port)
