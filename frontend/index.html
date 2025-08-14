@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartoon WebApp</title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         :root {
@@ -14,7 +15,6 @@
             --dark: #292F36;
             --light: #F7FFF7;
         }
-        
         body {
             font-family: 'Comic Neue', cursive;
             background-color: var(--light);
@@ -26,19 +26,16 @@
             min-height: 100vh;
             animation: float 6s ease-in-out infinite;
         }
-
         @keyframes float {
             0%, 100% { background-position: 10% 20%, 90% 80%; }
             50% { background-position: 15% 25%, 85% 75%; }
         }
-
         #app {
             max-width: 500px;
             margin: 0 auto;
             padding: 2rem;
             text-align: center;
         }
-
         .logo {
             font-size: 3rem;
             color: var(--primary);
@@ -48,12 +45,10 @@
             display: inline-block;
             animation: bounce 2s infinite;
         }
-
         @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
             50% { transform: translateY(-10px) rotate(-5deg); }
         }
-
         .card {
             background: white;
             border-radius: 20px;
@@ -66,21 +61,18 @@
             transform-style: preserve-3d;
             transition: all 0.3s;
         }
-
         .card:hover {
             transform: translateY(-5px) rotate(1deg);
             box-shadow: 
                 0 15px 30px rgba(0,0,0,0.15),
                 0 10px 10px rgba(0,0,0,0.1);
         }
-
         h1 {
             color: var(--dark);
             margin-bottom: 2rem;
             position: relative;
             display: inline-block;
         }
-
         h1:after {
             content: "";
             position: absolute;
@@ -91,19 +83,16 @@
             background: var(--secondary);
             border-radius: 2px;
         }
-
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
         }
-
         label {
             display: block;
             margin-bottom: 0.5rem;
             color: var(--dark);
             font-weight: bold;
         }
-
         input {
             width: 100%;
             padding: 12px 15px;
@@ -114,13 +103,11 @@
             transition: all 0.3s;
             box-sizing: border-box;
         }
-
         input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
         }
-
         .btn {
             background-color: var(--primary);
             color: white;
@@ -137,34 +124,28 @@
             transition: all 0.2s;
             margin-top: 1rem;
         }
-
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 0 var(--dark);
         }
-
         .btn:active {
             transform: translateY(2px);
             box-shadow: 0 2px 0 var(--dark);
         }
-
         .btn-secondary {
             background-color: var(--secondary);
         }
-
         .error {
             color: #FF3333;
             margin-top: 1rem;
             font-weight: bold;
             animation: shake 0.5s;
         }
-
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-
         .character {
             width: 120px;
             height: 120px;
@@ -174,13 +155,11 @@
             position: relative;
             border: 4px solid var(--dark);
         }
-
         .character:before, .character:after {
             content: "";
             position: absolute;
             background-color: var(--dark);
         }
-
         .character:before {
             width: 40px;
             height: 20px;
@@ -192,7 +171,6 @@
                 15px 30px 0 -5px var(--dark),
                 45px 30px 0 -5px var(--dark);
         }
-
         .character:after {
             width: 30px;
             height: 10px;
@@ -200,18 +178,16 @@
             top: 75px;
             left: 45px;
         }
-
         .switch-form {
             margin-top: 1.5rem;
             color: var(--dark);
         }
-
         .switch-form a {
             color: var(--primary);
             text-decoration: none;
             font-weight: bold;
+            cursor: pointer;
         }
-
         .switch-form a:hover {
             text-decoration: underline;
         }
@@ -273,6 +249,8 @@
     </div>
 
     <script>
+        const API_BASE = 'http://192.168.1.122:5000/api'; // полный адрес Flask
+
         const app = new Vue({
             el: '#app',
             data: {
@@ -287,7 +265,7 @@
                 async handleRegister() {
                     this.registerError = '';
                     try {
-                        const res = await axios.post('/api/register', this.register);
+                        const res = await axios.post(`${API_BASE}/register`, this.register);
                         this.token = res.data.token;
                         localStorage.setItem('token', this.token);
                     } catch (err) {
@@ -297,7 +275,7 @@
                 async handleLogin() {
                     this.loginError = '';
                     try {
-                        const res = await axios.post('/api/login', this.login);
+                        const res = await axios.post(`${API_BASE}/login`, this.login);
                         this.token = res.data.token;
                         localStorage.setItem('token', this.token);
                     } catch (err) {
@@ -312,6 +290,5 @@
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </body>
 </html>
