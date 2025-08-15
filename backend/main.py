@@ -17,8 +17,10 @@ DB_CONFIG = {
     "host": "localhost"
 }
 
+
 def get_db():
     return psycopg2.connect(**DB_CONFIG)
+
 
 def init_db():
     """Создаёт таблицу users, если её нет"""
@@ -42,6 +44,7 @@ def init_db():
         if conn:
             conn.close()
 
+
 @app.route('/api/register', methods=['POST'])
 def register():
     conn = None
@@ -50,24 +53,25 @@ def register():
         conn = get_db()
         with conn.cursor() as cur:
             hashed_pw = generate_password_hash(data['password'])
-            cur.execute(
-                "INSERT INTO users (username, email, password) VALUES (%s, %s, %s) RETURNING id",
+            cur.execute("""
+                INSERT INTO users (username, email, password)
+                VALUES (%s, %s, %s) RETURNING id
+                        """,
                 (data['username'], data['email'], hashed_pw)
             )
             user_id = cur.fetchone()[0]
             conn.commit()
-
             token = jwt.encode({
                 'user_id': user_id,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
             }, app.config['SECRET_KEY'], algorithm="HS256")
-
             return jsonify({'token': token, 'user_id': user_id}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     finally:
         if conn:
             conn.close()
+
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -84,7 +88,8 @@ def login():
             if user and check_password_hash(user[1], data['password']):
                 token = jwt.encode({
                     'user_id': user[0],
-                    'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
+                    'exp': datetime.datetime.utcnow() +
+                    datetime.timedelta(days=1)
                 }, app.config['SECRET_KEY'], algorithm="HS256")
                 return jsonify({'token': token}), 200
             return jsonify({'error': 'Invalid credentials'}), 401
@@ -94,7 +99,7 @@ def login():
         if conn:
             conn.close()
 
+
 if __name__ == '__main__':
     init_db()  # создаём таблицу при старте
     app.run(host='0.0.0.0', port=5000, ssl_context=('cert.pem', 'key.pem'))
-
