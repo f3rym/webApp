@@ -53,18 +53,24 @@ def register():
         conn = get_db()
         with conn.cursor() as cur:
             hashed_pw = generate_password_hash(data['password'])
-            cur.execute("""
+            cur.execute(
+                """
                 INSERT INTO users (username, email, password)
                 VALUES (%s, %s, %s) RETURNING id
-                        """,
+                """,
                 (data['username'], data['email'], hashed_pw)
             )
             user_id = cur.fetchone()[0]
             conn.commit()
-            token = jwt.encode({
-                'user_id': user_id,
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)
-            }, app.config['SECRET_KEY'], algorithm="HS256")
+            token = jwt.encode(
+                {
+                    'user_id': user_id,
+                    'exp': datetime.datetime.utcnow() +
+                    datetime.timedelta(days=1)
+                },
+                app.config['SECRET_KEY'],
+                algorithm="HS256"
+            )
             return jsonify({'token': token, 'user_id': user_id}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
