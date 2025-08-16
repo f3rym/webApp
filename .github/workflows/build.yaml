@@ -32,6 +32,6 @@ jobs:
             push: true
             tags: |
               f3rym/app-${{ matrix.image }}:latest
-              f4rym/app-${{ matrix.image }}:${{ github.sha }}
+              f3rym/app-${{ matrix.image }}:${{ github.sha }}
             cache-from: type=gha
             cache-to: type=gha,mode=max
