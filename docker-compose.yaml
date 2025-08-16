@@ -1,0 +1,39 @@
+services:
+  backend:
+    image: f3rym/app-backend
+    container_name: backend
+    ports:
+    - "5000:5000"
+    networks:
+    - app-net
+    depends_on:
+      - db
+  nginx:
+    image: f3rym/app-nginx
+    container_name: nginx
+    ports:
+    - "80:80"
+    - "443:443"
+    networks:
+      - app-net
+  db:
+    image: postgres:13
+    container_name: postgres
+    env_file:
+      - ../.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-net
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
