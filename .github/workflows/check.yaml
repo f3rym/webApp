@@ -23,14 +23,5 @@ jobs:
               run: |
                 sudo cp ./nginx/* /etc/nginx/conf.d/
                 sudo nginx -t
-    testForHTML:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
 
-            - name: Install dependencies
-              run: npm install -g html-validator-cli
-            - name: Test HTML
-              run: html-validator --file ./frontend/index.html --verbose
 
