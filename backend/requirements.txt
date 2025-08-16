@@ -3,4 +3,3 @@ Flask-Cors==4.0.0
 psycopg2-binary==2.9.9
 Werkzeug==3.0.3
 PyJWT==2.9.0
-flake8
