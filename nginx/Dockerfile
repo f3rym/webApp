@@ -2,9 +2,9 @@ FROM nginx:stable-alpine
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY ./myapp.conf /etc/nginx/conf.d/default.conf 
+COPY ./nginx/myapp.conf /etc/nginx/conf.d/default.conf 
 
-COPY ./frontend /var/www/nginxapp/frontend
+COPY ./nginx/frontend /var/www/nginxapp/frontend
 
 EXPOSE 80
 
