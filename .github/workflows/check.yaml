@@ -34,7 +34,6 @@ jobs:
               run: html-validator --file ./frontend/index.html --verbose
     testForPyCode:
         runs-on: ubuntu
-        needs: lintForPy
         steps:
             - name: Checkout
               uses: actions/checkout@v4
