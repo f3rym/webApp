@@ -7,7 +7,7 @@ services:
     networks:
     - app-net
     depends_on:
-      - db
+      - postgres
   nginx:
     image: f3rym/app-nginx
     container_name: nginx
