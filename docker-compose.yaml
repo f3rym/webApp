@@ -16,7 +16,7 @@ services:
     - "443:443"
     networks:
       - app-net
-  db:
+  postgres:
     image: postgres:13
     container_name: postgres
     env_file:
