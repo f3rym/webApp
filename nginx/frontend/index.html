@@ -8,192 +8,25 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-        :root {
-            --primary: #FF6B6B;
-            --secondary: #4ECDC4;
-            --accent: #FFE66D;
-            --dark: #292F36;
-            --light: #F7FFF7;
-        }
-        body {
-            font-family: 'Comic Neue', cursive;
-            background-color: var(--light);
-            margin: 0;
-            padding: 0;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 230, 109, 0.2) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(78, 205, 196, 0.2) 0%, transparent 20%);
-            min-height: 100vh;
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { background-position: 10% 20%, 90% 80%; }
-            50% { background-position: 15% 25%, 85% 75%; }
-        }
-        #app {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-        }
-        .logo {
-            font-size: 3rem;
-            color: var(--primary);
-            text-shadow: 3px 3px 0 var(--accent);
-            margin-bottom: 1rem;
-            transform: rotate(-5deg);
-            display: inline-block;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-10px) rotate(-5deg); }
-        }
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 
-                0 10px 20px rgba(0,0,0,0.1),
-                0 6px 6px rgba(0,0,0,0.05);
-            border: 4px solid var(--dark);
-            margin-bottom: 2rem;
-            transform-style: preserve-3d;
-            transition: all 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px) rotate(1deg);
-            box-shadow: 
-                0 15px 30px rgba(0,0,0,0.15),
-                0 10px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: var(--dark);
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-        h1:after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--secondary);
-            border-radius: 2px;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 3px solid var(--dark);
-            border-radius: 10px;
-            font-family: 'Comic Neue', cursive;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-sizing: border-box;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
-        }
-        .btn {
-            background-color: var(--primary);
+        /* ... ваш существующий CSS ... */
+        
+        .debug {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
             color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Comic Neue', cursive;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 0 var(--dark);
-            transition: all 0.2s;
-            margin-top: 1rem;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 var(--dark);
-        }
-        .btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 var(--dark);
-        }
-        .btn-secondary {
-            background-color: var(--secondary);
-        }
-        .error {
-            color: #FF3333;
-            margin-top: 1rem;
-            font-weight: bold;
-            animation: shake 0.5s;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        .character {
-            width: 120px;
-            height: 120px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            margin: 0 auto 2rem;
-            position: relative;
-            border: 4px solid var(--dark);
-        }
-        .character:before, .character:after {
-            content: "";
-            position: absolute;
-            background-color: var(--dark);
-        }
-        .character:before {
-            width: 40px;
-            height: 20px;
-            border-radius: 50%;
-            top: 40px;
-            left: 30px;
-            box-shadow: 
-                30px 0 0 var(--dark),
-                15px 30px 0 -5px var(--dark),
-                45px 30px 0 -5px var(--dark);
-        }
-        .character:after {
-            width: 30px;
-            height: 10px;
-            border-radius: 50%;
-            top: 75px;
-            left: 45px;
-        }
-        .switch-form {
-            margin-top: 1.5rem;
-            color: var(--dark);
-        }
-        .switch-form a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .switch-form a:hover {
-            text-decoration: underline;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
+    <div class="debug" id="debug">Debug: Ready</div>
+    
     <div id="app">
         <div class="logo">🐱 Fe</div>
         
@@ -214,7 +47,9 @@
                     <label>Password</label>
                     <input v-model="register.password" type="password" placeholder="••••••••">
                 </div>
-                <button class="btn" @click="handleRegister">Sign Up</button>
+                <button class="btn" @click="handleRegister" :disabled="loading">
+                    {{ loading ? 'Loading...' : 'Sign Up' }}
+                </button>
                 <p class="error">{{ registerError }}</p>
                 <div class="switch-form">
                     Already have an account? <a @click="showRegister = false">Login</a>
@@ -231,7 +66,9 @@
                     <label>Password</label>
                     <input v-model="login.password" type="password" placeholder="••••••••">
                 </div>
-                <button class="btn" @click="handleLogin">Login</button>
+                <button class="btn" @click="handleLogin" :disabled="loading">
+                    {{ loading ? 'Loading...' : 'Login' }}
+                </button>
                 <p class="error">{{ loginError }}</p>
                 <div class="switch-form">
                     New here? <a @click="showRegister = true">Create Account</a>
@@ -250,6 +87,12 @@
 
     <script>
         const API_BASE = 'http://localhost:5000/api';
+        
+        function debug(msg) {
+            console.log(msg);
+            document.getElementById('debug').innerHTML = 'Debug: ' + msg;
+        }
+
         const app = new Vue({
             el: '#app',
             data: {
@@ -258,35 +101,140 @@
                 register: { username: '', email: '', password: '' },
                 login: { email: '', password: '' },
                 registerError: '',
-                loginError: ''
+                loginError: '',
+                loading: false
+            },
+            created() {
+                debug('App started. API_BASE: ' + API_BASE);
+                this.testConnection();
             },
             methods: {
+                async testConnection() {
+                    debug('Testing connection to: ' + API_BASE);
+                    try {
+                        const response = await axios.get(API_BASE + '/', { 
+                            timeout: 3000 
+                        });
+                        debug('✅ API доступен: ' + JSON.stringify(response.data));
+                    } catch (error) {
+                        debug('❌ API недоступен: ' + error.message);
+                        this.registerError = 'API сервер недоступен';
+                        this.loginError = 'API сервер недоступен';
+                    }
+                },
+                
                 async handleRegister() {
                     this.registerError = '';
+                    this.loading = true;
+                    debug('Starting registration...');
+                    
                     try {
-                        const res = await axios.post(`${API_BASE}/register`, this.register);
-                        this.token = res.data.token;
-                        localStorage.setItem('token', this.token);
+                        debug('Sending to: ' + API_BASE + '/register');
+                        debug('Data: ' + JSON.stringify(this.register));
+                        
+                        const res = await axios.post(API_BASE + '/register', this.register, {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            timeout: 10000
+                        });
+                        
+                        debug('✅ Response received: ' + JSON.stringify(res.data));
+                        
+                        if (res.data.token) {
+                            this.token = res.data.token;
+                            localStorage.setItem('token', this.token);
+                            alert('✅ Registration successful!');
+                            debug('✅ Token saved to localStorage');
+                        } else {
+                            this.registerError = 'No token in response';
+                            debug('❌ No token in response');
+                        }
                     } catch (err) {
-                        this.registerError = err.response?.data?.error || 'Oops! Something went wrong!';
+                        debug('❌ Registration error: ' + err.message);
+                        
+                        if (err.response) {
+                            debug('Error details: ' + JSON.stringify(err.response.data));
+                            this.registerError = err.response.data?.error || 
+                                `Server error ${err.response.status}: ${err.response.statusText}`;
+                        } else if (err.request) {
+                            debug('No response from server');
+                            this.registerError = 'Server not responding. Check: 1) Is backend running? 2) Port 5000 open?';
+                        } else {
+                            debug('Request setup error: ' + err.message);
+                            this.registerError = 'Request error: ' + err.message;
+                        }
+                    } finally {
+                        this.loading = false;
                     }
                 },
+                
                 async handleLogin() {
                     this.loginError = '';
+                    this.loading = true;
+                    debug('Starting login...');
+                    
                     try {
-                        const res = await axios.post(`${API_BASE}/login`, this.login);
-                        this.token = res.data.token;
-                        localStorage.setItem('token', this.token);
+                        debug('Sending to: ' + API_BASE + '/login');
+                        
+                        const res = await axios.post(API_BASE + '/login', this.login, {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            timeout: 10000
+                        });
+                        
+                        debug('✅ Login response: ' + JSON.stringify(res.data));
+                        
+                        if (res.data.token) {
+                            this.token = res.data.token;
+                            localStorage.setItem('token', this.token);
+                            alert('✅ Login successful!');
+                            debug('✅ Token saved');
+                        } else {
+                            this.loginError = 'Invalid email or password';
+                            debug('❌ No token in login response');
+                        }
                     } catch (err) {
-                        this.loginError = err.response?.data?.error || 'Invalid email or password!';
+                        debug('❌ Login error: ' + err.message);
+                        
+                        if (err.response) {
+                            this.loginError = err.response.data?.error || 
+                                `Error ${err.response.status}: ${err.response.statusText}`;
+                        } else if (err.request) {
+                            this.loginError = 'Server not responding';
+                        } else {
+                            this.loginError = 'Request error: ' + err.message;
+                        }
+                    } finally {
+                        this.loading = false;
                     }
                 },
+                
                 logout() {
                     this.token = null;
                     localStorage.removeItem('token');
                     this.showRegister = false;
+                    debug('Logged out');
+                    alert('👋 Logged out');
                 }
             }
+        });
+        
+        axios.interceptors.request.use(function (config) {
+            debug('Request: ' + config.method.toUpperCase() + ' ' + config.url);
+            return config;
+        }, function (error) {
+            debug('Request error: ' + error.message);
+            return Promise.reject(error);
+        });
+        
+        axios.interceptors.response.use(function (response) {
+            debug('Response: ' + response.status + ' from ' + response.config.url);
+            return response;
+        }, function (error) {
+            debug('Response error: ' + error.message);
+            return Promise.reject(error);
         });
     </script>
 </body>
