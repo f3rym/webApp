@@ -14,7 +14,7 @@ DB_CONFIG = {
     "dbname": "users",
     "user": "python",
     "password": "python",
-    "host": "localhost"
+    "host": "postgres"
 }
 
 
@@ -108,4 +108,4 @@ def login():
 
 if __name__ == '__main__':
     init_db()  # создаём таблицу при старте
-    app.run(host='0.0.0.0', port=5000, ssl_context=('cert.pem', 'key.pem'))
+    app.run(host='0.0.0.0', port=5000)
